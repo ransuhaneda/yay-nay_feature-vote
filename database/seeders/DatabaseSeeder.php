@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enum\PermissionsEnum;
 use App\Enum\RolesEnum;
+use App\Models\Feature;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,14 +19,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $userRole = Role::create(['name' => RolesEnum::User->value]);
-        $commenterRole = Role::create(['name' => RolesEnum::Commenter->value]);
-        $adminRole = Role::create(['name' => RolesEnum::Admin->value]);
+        $userRole = Role::firstOrCreate(['name' => RolesEnum::User->value]);
+        $commenterRole = Role::firstOrCreate(['name' => RolesEnum::Commenter->value]);
+        $adminRole = Role::firstOrCreate(['name' => RolesEnum::Admin->value]);
 
-        $manageFeaturesPermission = Permission::create(['name' => PermissionsEnum::ManageFeatures->value]);
-        $manageCommentsPermission = Permission::create(['name' => PermissionsEnum::ManageComments->value]);
-        $manageUsersPermission = Permission::create(['name' => PermissionsEnum::ManageUsers->value]);
-        $upvoteDownvotePermission = Permission::create(['name' => PermissionsEnum::UpvoteDownvote->value]);
+        $manageFeaturesPermission = Permission::firstOrCreate(['name' => PermissionsEnum::ManageFeatures->value]);
+        $manageCommentsPermission = Permission::firstOrCreate(['name' => PermissionsEnum::ManageComments->value]);
+        $manageUsersPermission = Permission::firstOrCreate(['name' => PermissionsEnum::ManageUsers->value]);
+        $upvoteDownvotePermission = Permission::firstOrCreate(['name' => PermissionsEnum::UpvoteDownvote->value]);
 
         $userRole->syncPermissions([$upvoteDownvotePermission]);
         $commenterRole->syncPermissions([$upvoteDownvotePermission, $manageCommentsPermission]);
@@ -55,5 +56,7 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         )->assignRole(RolesEnum::Admin);
+
+        Feature::factory(100)->create();
     }
 }
