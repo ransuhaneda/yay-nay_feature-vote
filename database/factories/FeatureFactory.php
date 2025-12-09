@@ -19,7 +19,7 @@ class FeatureFactory extends Factory
     {
         return [
             'name' => fake()->text(),
-            'description' => fake()->text(),
+            'description' => fake()->realTextBetween(600, 800),
             'user_id' => User::where('email', 'admin@example.com')->first()->id
         ];
     }
