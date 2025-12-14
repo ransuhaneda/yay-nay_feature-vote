@@ -37,7 +37,23 @@ export interface User {
     avatar?: string;
     email_verified_at: string | null;
     two_factor_enabled?: boolean;
+    permissions: string[];
+    roles: string[];
     created_at: string;
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type PaginatedData<T = any> = {
+  data: T[];
+  links: Record<string, string>;
+}
+
+export type Feature = {
+  id: number;
+  name: string;
+  description: string;
+  user: User;
+  created_at: string;
 }
