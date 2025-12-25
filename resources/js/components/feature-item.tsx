@@ -1,12 +1,16 @@
 import { Feature } from '@/types';
 import { Button } from '@/components/ui/button';
 import {
-    Ellipsis,
     MessageCircleIcon,
     ThumbsDown,
     ThumbsUp,
 } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from '@inertiajs/react';
+import { show } from '@/routes/features';
+import { ActionDropdown } from './action-dropdown';
+
+
 
 export default function FeatureItem({ feature }: { feature: Feature }) {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -44,7 +48,7 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
 
                     {/* Title */}
                     <h2 className="mb-2 cursor-pointer text-lg font-semibold text-neutral-900 hover:text-amber-600 dark:text-white dark:hover:text-amber-400">
-                        {feature.name}
+                        <Link href={show(feature.id).url}>{feature.name}</Link>
                     </h2>
 
                     {/* Post */}
@@ -73,9 +77,7 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
                             <span>423 Comments</span>
                         </button>
 
-                        <button className="ml-auto flex items-center gap-1 rounded px-2 py-1 hover:bg-neutral-100 dark:hover:bg-neutral-800">
-                            <Ellipsis size={16} />
-                        </button>
+                        <ActionDropdown />
                     </div>
                 </div>
             </div>

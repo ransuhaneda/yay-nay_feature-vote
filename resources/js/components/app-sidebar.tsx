@@ -15,7 +15,7 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid, StickyNote } from 'lucide-react';
 import AppLogo from './app-logo';
-import feature from '@/routes/feature';
+import { index } from '@/routes/features';
 
 const mainNavItems: NavItem[] = [
     {
@@ -25,7 +25,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Features',
-        href: feature.index(),
+        href: index(),
         icon: StickyNote,
     },
 ];
