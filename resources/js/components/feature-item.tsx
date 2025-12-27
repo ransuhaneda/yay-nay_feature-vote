@@ -1,16 +1,10 @@
-import { Feature } from '@/types';
 import { Button } from '@/components/ui/button';
-import {
-    MessageCircleIcon,
-    ThumbsDown,
-    ThumbsUp,
-} from 'lucide-react';
-import { useState } from 'react';
-import { Link } from '@inertiajs/react';
 import { show } from '@/routes/features';
+import { Feature } from '@/types';
+import { Link } from '@inertiajs/react';
+import { MessageCircleIcon, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { useState } from 'react';
 import { ActionDropdown } from './action-dropdown';
-
-
 
 export default function FeatureItem({ feature }: { feature: Feature }) {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -35,7 +29,7 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
                 </div>
 
                 {/* Content */}
-                <div className="min-w-0 flex-1">
+                <div className="min-w-0 flex-1 self-center">
                     {/* Metadata */}
                     <div className="mb-1 flex items-center gap-1 text-xs text-neutral-500 dark:text-neutral-400">
                         <span>Posted by</span>
@@ -52,27 +46,34 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
                     </h2>
 
                     {/* Post */}
-                    <p className="mb-3 text-sm text-neutral-700 dark:text-neutral-300">
-                        {isExpanded
-                            ? `${feature.description} \u00A0`
-                            : `${feature.description.slice(0, 130)}...\u00A0`}
-                        <Button
-                            variant="secondary"
-                            size="bare"
-                            className={
-                                isExpanded
-                                    ? 'text-blue-700 hover:underline dark:text-blue-400'
-                                    : 'text-amber-700 hover:underline dark:text-amber-500'
-                            }
-                            onClick={toggleReadMore}
-                        >
-                            {isExpanded ? 'Read Less' : 'Read More'}
-                        </Button>
-                    </p>
+                    {(feature.description || '').length > 120 && (
+                        <p className="mb-3 text-sm text-neutral-700 dark:text-neutral-300">
+                            {isExpanded
+                                ? `${feature.description} \u00A0`
+                                : `${feature.description.slice(0, 130)}...\u00A0`}
+                            <Button
+                                variant="secondary"
+                                size="bare"
+                                className={
+                                    isExpanded
+                                        ? 'text-blue-700 hover:underline dark:text-blue-400'
+                                        : 'text-amber-700 hover:underline dark:text-amber-500'
+                                }
+                                onClick={toggleReadMore}
+                            >
+                                {isExpanded ? 'Read Less' : 'Read More'}
+                            </Button>
+                        </p>
+                    )}
 
+                    {(feature.description || '').length <= 120 && (
+                        <p className="mb-3 text-sm text-neutral-700 dark:text-neutral-300">
+                            {feature.description}
+                        </p>
+                    )}
                     {/* Actions */}
-                    <div className="flex items-center gap-4 text-xs text-neutral-500 dark:text-neutral-400">
-                        <button className="flex items-center gap-1 rounded px-2 py-1 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+                    <div className="flex items-center justify-between gap-4 text-xs text-neutral-500 dark:text-neutral-400">
+                        <button className="flex items-center gap-1 rounded py-1 hover:bg-neutral-100 dark:hover:bg-neutral-800">
                             <MessageCircleIcon size={16} />
                             <span>423 Comments</span>
                         </button>

@@ -27,7 +27,7 @@ export default function Index({
             </div>
             <div className="my-4 flex flex-col gap-4">
                 {features.data.map((feature) => (
-                    <FeatureItem feature={feature} />
+                    <FeatureItem feature={feature} key={feature.id}/>
                 ))}
             </div>
         </AppLayout>

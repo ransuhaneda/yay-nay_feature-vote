@@ -26,7 +26,7 @@ class FeatureController extends Controller
      */
     public function create()
     {
-        //
+    return Inertia::render('feature/create');
     }
 
     /**
@@ -34,7 +34,7 @@ class FeatureController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
           'name' => ['required', 'string'],
           'description' => ['nullable', 'string'],
         ]);
@@ -42,8 +42,8 @@ class FeatureController extends Controller
         $data['user_id'] = auth()->id();
 
         Feature::create($data);
-
-      return to_route('feature.index')->with('success', 'Feature created successfully');
+      
+      return to_route('features.index')->with('success', 'Feature created successfully');
     }
 
     /**
@@ -78,7 +78,7 @@ class FeatureController extends Controller
 
         $feature->update($data);
 
-        return to_route('feature.index')->with('success', 'Feature updated successfully');
+        return to_route('features.index')->with('success', 'Feature updated successfully');
     }
 
     /**
@@ -88,6 +88,6 @@ class FeatureController extends Controller
     {
         $feature->delete();
 
-        return to_route('feature.index')->with('success', 'Feature deleted successfully');
+        return to_route('features.index')->with('success', 'Feature deleted successfully');
     }
 }
