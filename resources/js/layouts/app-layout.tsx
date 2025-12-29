@@ -1,5 +1,7 @@
+import Toast from '@/components/ui/toast';
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import { type BreadcrumbItem } from '@/types';
+import { usePage } from '@inertiajs/react';
 import { type ReactNode } from 'react';
 
 interface AppLayoutProps {
@@ -7,8 +9,29 @@ interface AppLayoutProps {
     breadcrumbs?: BreadcrumbItem[];
 }
 
-export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => (
-    <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
-        {children}
-    </AppLayoutTemplate>
-);
+interface PageProps {
+    success?: boolean | string;
+}
+
+export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
+
+  const success = (usePage().props as PageProps).success;
+
+  return (
+      <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
+          {success && (
+              <Toast
+                  type="success"
+                  message={success}
+                  onClose={() => {
+                    setTimeout(() => {
+                        console.log('5 seconds have passed');
+                    }, 1000);
+                  }}
+              />
+          )}
+
+          {children}
+      </AppLayoutTemplate>
+  );
+};

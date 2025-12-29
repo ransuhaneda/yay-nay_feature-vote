@@ -50,6 +50,7 @@ export default function Create() {
                                 <InputTextarea
                                     id="description"
                                     name="description"
+                                    rows={6}
                                     placeholder="Feature description"
                                     className="mt-1 block w-full border-neutral-300"
                                 />

@@ -50,6 +50,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $user ? new AuthUserResource($user) : null,
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'success' => session('success')
         ];
     }
 }

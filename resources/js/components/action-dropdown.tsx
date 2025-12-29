@@ -17,7 +17,7 @@ export function ActionDropdown () {
                   size='bare'
       
               >
-                  <Ellipsis size={16} />
+                  <Ellipsis size={20} />
               </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
