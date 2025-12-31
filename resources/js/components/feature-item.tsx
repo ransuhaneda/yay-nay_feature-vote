@@ -21,7 +21,7 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
                         <ThumbsUp size={24} />
                     </button>
                     <span className="my-1 text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-                        2.3k
+                       {feature.upvote_count}
                     </span>
                     <button className="p-1 text-neutral-500 hover:text-blue-500 dark:text-neutral-400 dark:hover:text-blue-400">
                         <ThumbsDown size={24} />
