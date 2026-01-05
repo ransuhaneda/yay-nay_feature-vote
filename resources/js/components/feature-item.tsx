@@ -64,10 +64,13 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
                     )}
                     {/* Actions */}
                     <div className="flex items-center justify-between gap-4 text-xs text-neutral-500 dark:text-neutral-400">
-                        <button className="flex items-center gap-1 rounded py-1 hover:bg-neutral-100 dark:hover:bg-neutral-800">
+                        <Link
+                            href={show(feature.id).url}
+                            className="flex items-center gap-1 rounded py-1 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:underline"
+                        >
                             <MessageCircleIcon size={16} />
                             <span>423 Comments</span>
-                        </button>
+                        </Link>
 
                         <ActionDropdown />
                     </div>

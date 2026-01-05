@@ -5,7 +5,7 @@ import { destroy, edit, index } from '@/routes/features';
 import { BreadcrumbItem, Feature } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { MessageCirclePlus, SquareMenuIcon } from 'lucide-react';
-
+import { VoteButton } from '@/components/vote-button';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -13,7 +13,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { VoteButton } from '@/components/vote-button';
+import { CommentForm } from '@/components/comment-form';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -83,7 +83,7 @@ export default function Show({ feature }: { feature: Feature }) {
                             <p className="mb-3 text-sm text-neutral-700 dark:text-neutral-300">
                                 {feature.description}
                             </p>
-                            {/* Actions */}
+                            {/* Author */}
                             <div className="flex flex-row justify-between">
                                 <div className="mb-1 flex items-center gap-1 text-xs text-neutral-500 dark:text-neutral-400">
                                     <span>Posted by</span>
@@ -93,6 +93,10 @@ export default function Show({ feature }: { feature: Feature }) {
                                     <span>•</span>
                                     <span>{feature.created_at}</span>
                                 </div>
+                            </div>
+                            {/* Comment Form */}
+                            <div className="">
+                              <CommentForm feature={feature} />
                             </div>
                         </div>
                     </div>
