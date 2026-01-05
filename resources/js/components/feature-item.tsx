@@ -12,22 +12,40 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
     const toggleReadMore = () => {
         setIsExpanded(!isExpanded);
     };
-
     return (
         <div className="mx-4 rounded-lg border border-neutral-300 bg-white p-4 transition-colors hover:border-neutral-400 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:border-neutral-600">
             <div className="flex items-start gap-3">
                 <div className="flex flex-col items-center">
-                    <button className="p-1 text-neutral-500 hover:text-orange-500 dark:text-neutral-400 dark:hover:text-orange-400">
+                    <button
+                        className={
+                            feature.user_has_upvoted
+                                ? 'p-1 text-orange-500 hover:text-neutral-500 dark:text-orange-400 dark:hover:text-neutral-400'
+                                : 'p-1 text-neutral-500 hover:text-orange-500 dark:text-neutral-400 dark:hover:text-orange-400'
+                        }
+                    >
                         <ThumbsUp size={24} />
                     </button>
-                    <span className="my-1 text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-                       {feature.upvote_count}
+                    <span
+                        className={`my-1 text-sm font-semibold ${
+                            feature.user_has_upvoted
+                                ? 'text-orange-500 dark:text-orange-400'
+                                : feature.user_has_downvoted
+                                  ? 'text-blue-500 dark:text-blue-400'
+                                  : 'text-neutral-700 dark:text-neutral-300'
+                        }`}
+                    >
+                        {feature.upvote_count}
                     </span>
-                    <button className="p-1 text-neutral-500 hover:text-blue-500 dark:text-neutral-400 dark:hover:text-blue-400">
+                    <button
+                        className={
+                            feature.user_has_downvoted
+                                ? 'p-1 text-blue-500 hover:text-neutral-500 dark:text-blue-400 dark:hover:text-neutral-400'
+                                : 'p-1 text-neutral-500 hover:text-blue-500 dark:text-neutral-400 dark:hover:text-blue-400'
+                        }
+                    >
                         <ThumbsDown size={24} />
                     </button>
                 </div>
-
                 {/* Content */}
                 <div className="min-w-0 flex-1 self-center">
                     {/* Metadata */}
