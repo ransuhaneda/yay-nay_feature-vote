@@ -141,3 +141,19 @@
         @apply bg-background text-foreground;
     }
 }
+
+@utility text-muted{
+ @apply text-neutral-700 dark:text-neutral-300;
+}
+
+@utility divider {
+  @apply h-px w-8 bg-neutral-300 dark:bg-neutral-700/70;
+}
+
+@utility card-surface {
+  @apply rounded-md border border-neutral-300 bg-white dark:border-neutral-700 dark:bg-neutral-800;
+}
+
+@utility card-interactive {
+  @apply transition-colors hover:border-neutral-400 dark:hover:border-neutral-600;
+}
