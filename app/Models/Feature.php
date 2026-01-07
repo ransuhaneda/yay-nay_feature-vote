@@ -21,7 +21,7 @@ class Feature extends Model
 
     public function comments(): HasMany
     {
-      return $this->HasMany(Comment::class);
+      return $this->HasMany(Comment::class)->latest();
     }
 
     public function user(): BelongsTo
