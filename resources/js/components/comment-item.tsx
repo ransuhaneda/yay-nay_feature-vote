@@ -12,6 +12,7 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInitials } from '@/hooks/use-initials';
+import { destroy as destroyComment } from '@/routes/comment';
 
 export function CommentItem({ comment }: { comment: Comment }) {
     const getInitials = useInitials();
@@ -46,8 +47,8 @@ export function CommentItem({ comment }: { comment: Comment }) {
                         <DropdownMenuTrigger asChild>
                             <Button variant="secondary" size="bare">
                                 <TooltipWrapper
-                                    tooltipText="Manage Post"
-                                    srText="Manage Post"
+                                    tooltipText="Manage Comment"
+                                    srText="Manage Comment"
                                     icon={MoreVertical}
                                     iconSize={20}
                                 />
@@ -55,10 +56,17 @@ export function CommentItem({ comment }: { comment: Comment }) {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuItem>
-                                <Link>Edit Comment</Link>
+                                <Link>
+                                    Edit Comment
+                                </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
-                                <Link>Delete Comment</Link>
+                                <Link
+                                    href={destroyComment(comment.id)}
+                                    preserveScroll
+                                >
+                                    Delete Comment
+                                </Link>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
