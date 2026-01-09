@@ -1,10 +1,11 @@
 import FeatureItem from '@/components/feature-item';
 import { Button } from '@/components/ui/button';
 import { userCan } from '@/helpers/canFunction';
+import { useAuthUserStrict } from '@/hooks/use-auth-user';
 import AppLayout from '@/layouts/app-layout';
 import { create, index } from '@/routes/features';
-import { Feature, PaginatedData, User, type BreadcrumbItem } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Feature, PaginatedData, type BreadcrumbItem } from '@/types';
+import { Head, Link } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -13,14 +14,12 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Index({
-    features,
-}: {
-    features: PaginatedData<Feature>;
-}) {
-    // first option to access current authenticated user is
-    const { props } = usePage() as { props: { auth: { user: User } } };
-    const authUser = props.auth.user;
+type FeatureListProps = {
+  features: PaginatedData<Feature>;
+}
+
+export default function Index({features}: FeatureListProps) {
+    const authUser = useAuthUserStrict();
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

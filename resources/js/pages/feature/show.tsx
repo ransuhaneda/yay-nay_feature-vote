@@ -1,4 +1,4 @@
-import { ActionDropdown } from '@/components/action-dropdown';
+import { ShareActionsDropdown } from '@/components/actions-share-dropdown';
 import { CommentForm } from '@/components/comment-form';
 import { CommentItem } from '@/components/comment-item';
 import { TooltipWrapper } from '@/components/tooltip-wrapper';
@@ -11,9 +11,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { VoteButton } from '@/components/vote-button';
 import { userCan } from '@/helpers/canFunction';
+import { useAuthUserStrict } from '@/hooks/use-auth-user';
 import AppLayout from '@/layouts/app-layout';
 import { destroy, edit, index } from '@/routes/features';
-import { BreadcrumbItem, Feature, User } from '@/types';
+import { BreadcrumbItem, Feature } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { MessageCirclePlus, SquareMenuIcon } from 'lucide-react';
 
@@ -24,17 +25,8 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-
-// second option to access current authenticated user is
-type ItemProps = {
-    feature: Feature;
-    auth: {
-        user: User;
-    };
-};
-
-export default function Show({ feature, auth }: ItemProps) {
-    const authUser = auth.user;
+export default function Show({ feature }: {feature: Feature}) {
+    const authUser = useAuthUserStrict();
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -82,7 +74,7 @@ export default function Show({ feature, auth }: ItemProps) {
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         )}
-                        <ActionDropdown />
+                        <ShareActionsDropdown />
                     </div>
                 </div>
                 <div className="flex-1 card-surface card-interactive p-4">

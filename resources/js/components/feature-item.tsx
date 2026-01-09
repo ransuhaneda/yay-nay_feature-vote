@@ -4,7 +4,7 @@ import { Feature } from '@/types';
 import { Link } from '@inertiajs/react';
 import { MessageCircleIcon } from 'lucide-react';
 import { useState } from 'react';
-import { ActionDropdown } from './action-dropdown';
+import { ShareActionsDropdown } from './actions-share-dropdown';
 import { VoteButton } from './vote-button';
 
 export default function FeatureItem({ feature }: { feature: Feature }) {
@@ -72,7 +72,7 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
                             <span>423 Comments</span>
                         </Link>
 
-                        <ActionDropdown />
+                        <ShareActionsDropdown />
                     </div>
                 </div>
             </div>

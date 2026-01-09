@@ -11,13 +11,12 @@ import {
 } from '@/components/ui/sidebar';
 import { UserInfo } from '@/components/user-info';
 import { UserMenuContent } from '@/components/user-menu-content';
+import { useAuthUserStrict } from '@/hooks/use-auth-user';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { type SharedData } from '@/types';
-import { usePage } from '@inertiajs/react';
 import { ChevronsUpDown } from 'lucide-react';
 
 export function NavUser() {
-    const { auth } = usePage<SharedData>().props;
+    const authUser = useAuthUserStrict();
     const { state } = useSidebar();
     const isMobile = useIsMobile();
 
@@ -31,7 +30,7 @@ export function NavUser() {
                             className="group text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent"
                             data-test="sidebar-menu-button"
                         >
-                            <UserInfo user={auth.user} />
+                            <UserInfo user={authUser} />
                             <ChevronsUpDown className="ml-auto size-4" />
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
@@ -46,7 +45,7 @@ export function NavUser() {
                                   : 'bottom'
                         }
                     >
-                        <UserMenuContent user={auth.user} />
+                        <UserMenuContent user={authUser} />
                     </DropdownMenuContent>
                 </DropdownMenu>
             </SidebarMenuItem>

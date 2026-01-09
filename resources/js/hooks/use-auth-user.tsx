@@ -1,1 +1,0 @@
-// create hook for accessing currently auth user

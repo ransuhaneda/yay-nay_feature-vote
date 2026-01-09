@@ -7,7 +7,7 @@ import {
 import { Ellipsis } from 'lucide-react';
 import { Button } from './ui/button';
 
-export function ActionDropdown () {
+export function ShareActionsDropdown () {
   return (
   <>
       <DropdownMenu>

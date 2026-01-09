@@ -13,10 +13,17 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInitials } from '@/hooks/use-initials';
 import { destroy as destroyComment } from '@/routes/comment';
+import { userCan } from '@/helpers/canFunction';
+import { useAuthUserStrict } from '@/hooks/use-auth-user';
 
-export function CommentItem({ comment }: { comment: Comment }) {
+type CommentItemProps = {
+    comment: Comment;
+};
+
+export function CommentItem({ comment }: CommentItemProps) {
     const getInitials = useInitials();
-    
+    const authUser = useAuthUserStrict();
+
     return (
         <div className="flex gap-3 card-surface card-interactive p-4">
             <div className="shrink-0">
@@ -42,34 +49,33 @@ export function CommentItem({ comment }: { comment: Comment }) {
                             {comment.created_at}
                         </span>
                     </div>
-
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="secondary" size="bare">
-                                <TooltipWrapper
-                                    tooltipText="Manage Comment"
-                                    srText="Manage Comment"
-                                    icon={MoreVertical}
-                                    iconSize={20}
-                                />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
-                                <Link>
-                                    Edit Comment
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link
-                                    href={destroyComment(comment.id)}
-                                    preserveScroll
-                                >
-                                    Delete Comment
-                                </Link>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    {userCan(authUser, 'manage_comments') && comment.user.id === authUser.id && (
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="secondary" size="bare">
+                                    <TooltipWrapper
+                                        tooltipText="Manage Comment"
+                                        srText="Manage Comment"
+                                        icon={MoreVertical}
+                                        iconSize={20}
+                                    />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuItem>
+                                    <Link>Edit Comment</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <Link
+                                        href={destroyComment(comment.id)}
+                                        preserveScroll
+                                    >
+                                        Delete Comment
+                                    </Link>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    )}
                 </div>
 
                 <div className="mb-3">
