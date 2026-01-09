@@ -28,6 +28,11 @@ class CommentController extends Controller
 
    public function destroy(Comment $comment)
   {
+    // TODO: create a gate/policy to replace this
+    if ($comment->user_id !== Auth::id()) {
+      abort(403, 'Unauthorized action.');
+    }
+
     $featureId = $comment->feature_id;
     $comment->delete();
 
