@@ -65,8 +65,8 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
                     {/* Actions */}
                     <div className="flex items-center justify-between gap-4 text-xs text-neutral-500 dark:text-neutral-400">
                         <Link
-                            href={show(feature.id).url}
-                            className="flex items-center gap-1 rounded py-1 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:underline"
+                            href={`${show(feature.id).url}#comments`}
+                            className="flex items-center gap-1 rounded py-1 hover:bg-neutral-100 hover:underline dark:hover:bg-neutral-800"
                         >
                             <MessageCircleIcon size={16} />
                             <span>423 Comments</span>
