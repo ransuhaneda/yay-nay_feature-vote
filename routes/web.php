@@ -1,6 +1,7 @@
 <?php
 
 use App\Enum\PermissionsEnum;
+use App\Enum\RolesEnum;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\UpvoteController;
@@ -17,7 +18,7 @@ Route::get('/', function () {
 // Route::redirect('/', '/dashboard')->name('home');
 
 // needed to access dashboard. user must be auth & verified
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:'.RolesEnum::User->value])->group(function () {
     
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
