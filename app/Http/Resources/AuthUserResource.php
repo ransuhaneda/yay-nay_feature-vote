@@ -24,7 +24,8 @@ class AuthUserResource extends JsonResource
             ->map(function ($permission): mixed {
               return $permission->name;
             }),
-          'roles' => $this->getRoleNames()
+          'roles' => $this->getRoleNames(),
+          'created_at' => $this->created_at->format('Y-m-d'),
         ];
     }
 }

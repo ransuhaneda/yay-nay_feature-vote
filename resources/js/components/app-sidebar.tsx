@@ -10,12 +10,15 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { userCan } from '@/helpers/canFunction';
+import { useAuthUserStrict } from '@/hooks/use-auth-user';
 import { dashboard } from '@/routes';
+import { index as FeaturesIndex } from '@/routes/features';
+import { index as UserIndex } from '@/routes/user';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, StickyNote } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, StickyNote, Users } from 'lucide-react';
 import AppLogo from './app-logo';
-import { index } from '@/routes/features';
 
 const mainNavItems: NavItem[] = [
     {
@@ -25,8 +28,14 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Features',
-        href: index(),
+        href: FeaturesIndex(),
         icon: StickyNote,
+    },
+    {
+        title: 'Users',
+        href: UserIndex(),
+        icon: Users,
+        permission: 'manage_features',
     },
 ];
 
@@ -44,6 +53,12 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const authUser = useAuthUserStrict();
+
+    const visibleItems = mainNavItems.filter(
+        (item) => !item.permission || userCan(authUser, item.permission),
+    );
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -59,7 +74,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={visibleItems} />
             </SidebarContent>
 
             <SidebarFooter>

@@ -142,6 +142,10 @@
     }
 }
 
+@utility text-primary {
+  @apply text-neutral-900 dark:text-white;
+}
+
 @utility text-muted{
  @apply text-neutral-700 dark:text-neutral-300;
 }
