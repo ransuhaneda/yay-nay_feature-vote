@@ -39,6 +39,14 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+    $validated = $request->validate([
+      'roles' => ['array'],
+      'roles.*' => ['string', 'exists:roles,name'],
+    ]);
+
+    // Sync the roles
+    $user->syncRoles($validated['roles'] ?? []);
+
+    return to_route('user.index');
     }
 }

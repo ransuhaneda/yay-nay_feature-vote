@@ -6,9 +6,9 @@ import { Form } from '@inertiajs/react';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { ChangeEvent, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -24,10 +24,16 @@ type RoleUpdateProps = {
 };
 
 export default function Edit({ user, roles, roleLabels }: RoleUpdateProps) {
-    
-  // const onRoleChange = (ev) => {
-  //   console.log(ev.target.value, ev.target.checked);
-  // }
+    const initialRoles = user.roles || [];
+    const [selectedRoles, setSelectedRoles] = useState<string[]>(initialRoles);
+
+    const onRoleChange = (ev: ChangeEvent<HTMLInputElement>) => {
+        const { value, checked } = ev.target;
+
+        setSelectedRoles((prev) =>
+            checked ? [...prev, value] : prev.filter((role) => role !== value),
+        );
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -38,6 +44,7 @@ export default function Edit({ user, roles, roleLabels }: RoleUpdateProps) {
                     action={userUpdate(user.id)}
                     method="patch"
                     className="space-y-6"
+                    key={user.id}
                 >
                     {({ errors, processing }) => (
                         <>
@@ -73,23 +80,23 @@ export default function Edit({ user, roles, roleLabels }: RoleUpdateProps) {
 
                                 <InputError message={errors.email} />
                             </div>
-
                             <div className="flex flex-col gap-3">
                                 {roles.map((role) => (
                                     <div
                                         key={role.id}
                                         className="align-center flex space-x-2"
                                     >
-                                        <Checkbox
+                                        <input
                                             id={role.name}
                                             name="roles[]"
-                                            // defaultChecked={user.roles?.some(
-                                                
-                                            // )}
+                                            type="checkbox"
+                                            checked={selectedRoles.includes(
+                                                role.name,
+                                            )}
                                             value={role.name}
                                             onChange={onRoleChange}
                                             tabIndex={3}
-                                            className="h-5 w-5 cursor-pointer appearance-none rounded border border-slate-300 transition-all"
+                                            className="rounder-xs h-4 w-4 cursor-pointer border border-slate-300 transition-all"
                                         />
                                         <Label htmlFor={role.name}>
                                             {roleLabels[role.name]}
