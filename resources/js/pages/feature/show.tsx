@@ -1,4 +1,4 @@
-import { ActionDropdown } from '@/components/action-dropdown';
+import { ShareActionsDropdown } from '@/components/actions-share-dropdown';
 import { CommentForm } from '@/components/comment-form';
 import { CommentItem } from '@/components/comment-item';
 import { TooltipWrapper } from '@/components/tooltip-wrapper';
@@ -10,6 +10,8 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { VoteButton } from '@/components/vote-button';
+import { userCan } from '@/helpers/canFunction';
+import { useAuthUserStrict } from '@/hooks/use-auth-user';
 import AppLayout from '@/layouts/app-layout';
 import { destroy, edit, index } from '@/routes/features';
 import { BreadcrumbItem, Feature } from '@/types';
@@ -24,9 +26,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Show({ feature }: { feature: Feature }) {
+    const authUser = useAuthUserStrict();
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={'Features' + feature.name} />
+            <Head title={'Feature' + feature.name} />
             <div className="m-4 flex flex-row gap-4">
                 <div className="flex flex-col items-center gap-2">
                     <div className="flex flex-col items-center gap-4 card-surface card-interactive p-2">
@@ -44,32 +48,34 @@ export default function Show({ feature }: { feature: Feature }) {
                             iconSize={20}
                         />
 
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="secondary" size="bare">
-                                    <TooltipWrapper
-                                        tooltipText="Manage Post"
-                                        srText="Manage Post"
-                                        icon={SquareMenuIcon}
-                                        iconSize={20}
-                                    />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuItem>
-                                    <Link href={edit(feature.id)}>
-                                        Edit Request
-                                    </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <Link href={destroy(feature.id)}>
-                                        Delete Request
-                                    </Link>
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-
-                        <ActionDropdown />
+                        {userCan(authUser, 'manage_features') ||
+                            (feature.user.id === authUser.id && (
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button variant="secondary" size="bare">
+                                            <TooltipWrapper
+                                                tooltipText="Manage Post"
+                                                srText="Manage Post"
+                                                icon={SquareMenuIcon}
+                                                iconSize={20}
+                                            />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end">
+                                        <DropdownMenuItem>
+                                            <Link href={edit(feature.id)}>
+                                                Edit Request
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Link href={destroy(feature.id)}>
+                                                Delete Request
+                                            </Link>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            ))}
+                        <ShareActionsDropdown />
                     </div>
                 </div>
                 <div className="flex-1 card-surface card-interactive p-4">
@@ -93,8 +99,16 @@ export default function Show({ feature }: { feature: Feature }) {
                                     <span>{feature.created_at}</span>
                                 </div>
                             </div>
-                            <div className="mt-[36px] flex flex-col gap-3">
-                                <CommentForm feature={feature} />
+                            <div id='comments' className="mt-[36px] flex flex-col gap-3">
+                                {!userCan(authUser, 'manage_comments') && (
+                                    <p className="text-center text-sm text-neutral-700 dark:text-neutral-300">
+                                        You don't have permission to leave
+                                        comments.
+                                    </p>
+                                )}
+                                {userCan(authUser, 'manage_comments') && (
+                                    <CommentForm feature={feature} />
+                                )}
                                 {feature.comments.map((comment) => (
                                     <CommentItem
                                         comment={comment}

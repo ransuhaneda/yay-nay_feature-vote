@@ -4,8 +4,9 @@ import { Feature } from '@/types';
 import { Link } from '@inertiajs/react';
 import { MessageCircleIcon } from 'lucide-react';
 import { useState } from 'react';
-import { ActionDropdown } from './action-dropdown';
+import { ShareActionsDropdown } from './actions-share-dropdown';
 import { VoteButton } from './vote-button';
+import { useDateFormat } from '@/hooks/use-date-format';
 
 export default function FeatureItem({ feature }: { feature: Feature }) {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -13,6 +14,8 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
     const toggleReadMore = () => {
         setIsExpanded(!isExpanded);
     };
+
+    const formatDate = useDateFormat(feature.created_at);
 
    // console.log('Has downvoted:', feature.user_has_downvoted);
     return (
@@ -25,10 +28,10 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
                     <div className="mb-1 flex items-center gap-1 text-xs text-neutral-500 dark:text-neutral-400">
                         <span>Posted by</span>
                         <span className="cursor-pointer hover:underline dark:hover:text-neutral-200">
-                            u/developer42
+                            {feature.user.name}
                         </span>
                         <span>•</span>
-                        <span>{feature.created_at}</span>
+                        <span>{formatDate}</span>
                     </div>
 
                     {/* Title */}
@@ -65,14 +68,14 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
                     {/* Actions */}
                     <div className="flex items-center justify-between gap-4 text-xs text-neutral-500 dark:text-neutral-400">
                         <Link
-                            href={show(feature.id).url}
-                            className="flex items-center gap-1 rounded py-1 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:underline"
+                            href={`${show(feature.id).url}#comments`}
+                            className="flex items-center gap-1 rounded py-1 hover:bg-neutral-100 hover:underline dark:hover:bg-neutral-800"
                         >
                             <MessageCircleIcon size={16} />
                             <span>423 Comments</span>
                         </Link>
 
-                        <ActionDropdown />
+                        <ShareActionsDropdown />
                     </div>
                 </div>
             </div>
