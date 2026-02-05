@@ -5,8 +5,8 @@ import { Form } from '@inertiajs/react';
 
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
+import { ReadOnlyField } from '@/components/input-readonly';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ChangeEvent, useState } from 'react';
 
@@ -48,38 +48,16 @@ export default function Edit({ user, roles, roleLabels }: RoleUpdateProps) {
                 >
                     {({ errors, processing }) => (
                         <>
-                            <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
-
-                                <Input
-                                    id="name"
-                                    name="name"
-                                    type="text"
-                                    defaultValue={user.name}
-                                    required
-                                    autoComplete="name"
-                                    disabled
-                                    className="mt-1 block w-full border-neutral-300"
-                                />
-
-                                <InputError message={errors.name} />
-                            </div>
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email</Label>
-
-                                <Input
-                                    id="email"
-                                    name="email"
-                                    type="text"
-                                    defaultValue={user.email}
-                                    required
-                                    autoComplete="email"
-                                    disabled
-                                    className="mt-1 block w-full border-neutral-300"
-                                />
-
-                                <InputError message={errors.email} />
-                            </div>
+                            <ReadOnlyField
+                                label="Name"
+                                value={user.name}
+                                error={errors.name}
+                            />
+                            <ReadOnlyField
+                                label="Email"
+                                value={user.email}
+                                error={errors.email}
+                            />
                             <div className="flex flex-col gap-3">
                                 {roles.map((role) => (
                                     <div
@@ -95,7 +73,7 @@ export default function Edit({ user, roles, roleLabels }: RoleUpdateProps) {
                                             )}
                                             value={role.name}
                                             onChange={onRoleChange}
-                                            tabIndex={3}
+                                            tabIndex={1}
                                             className="rounder-xs h-4 w-4 cursor-pointer border border-slate-300 transition-all"
                                         />
                                         <Label htmlFor={role.name}>
@@ -103,9 +81,11 @@ export default function Edit({ user, roles, roleLabels }: RoleUpdateProps) {
                                         </Label>
                                     </div>
                                 ))}
+
+                                <InputError message={errors.roles} />
                             </div>
 
-                            <Button disabled={processing}>
+                            <Button disabled={processing} tabIndex={2}>
                                 {processing ? 'Updating...' : 'Submit Update'}
                             </Button>
                         </>

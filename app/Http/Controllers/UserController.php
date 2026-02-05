@@ -47,6 +47,6 @@ class UserController extends Controller
     // Sync the roles
     $user->syncRoles($validated['roles'] ?? []);
 
-    return to_route('user.index');
+    return to_route('user.index')->with('success', 'Roles were updated successfully.');
     }
 }

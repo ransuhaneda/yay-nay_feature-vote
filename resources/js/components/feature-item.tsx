@@ -6,6 +6,7 @@ import { MessageCircleIcon } from 'lucide-react';
 import { useState } from 'react';
 import { ShareActionsDropdown } from './actions-share-dropdown';
 import { VoteButton } from './vote-button';
+import { useDateFormat } from '@/hooks/use-date-format';
 
 export default function FeatureItem({ feature }: { feature: Feature }) {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -13,6 +14,8 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
     const toggleReadMore = () => {
         setIsExpanded(!isExpanded);
     };
+
+    const formatDate = useDateFormat(feature.created_at);
 
    // console.log('Has downvoted:', feature.user_has_downvoted);
     return (
@@ -25,10 +28,10 @@ export default function FeatureItem({ feature }: { feature: Feature }) {
                     <div className="mb-1 flex items-center gap-1 text-xs text-neutral-500 dark:text-neutral-400">
                         <span>Posted by</span>
                         <span className="cursor-pointer hover:underline dark:hover:text-neutral-200">
-                            u/developer42
+                            {feature.user.name}
                         </span>
                         <span>•</span>
-                        <span>{feature.created_at}</span>
+                        <span>{formatDate}</span>
                     </div>
 
                     {/* Title */}

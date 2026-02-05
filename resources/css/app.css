@@ -142,6 +142,16 @@
     }
 }
 
+@utility custom-scrollbar {
+ @apply max-h-100 overflow-y-auto
+  [&::-webkit-scrollbar]:w-1.5
+  [&::-webkit-scrollbar]:h-1.5
+  [&::-webkit-scrollbar-track]:bg-gray-100
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+  dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500;
+}
+
 @utility text-primary {
   @apply text-neutral-900 dark:text-white;
 }
